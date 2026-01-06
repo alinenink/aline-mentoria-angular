@@ -1,8 +1,46 @@
 <div class="container">
   <header>
-    <h1>{{title}}</h1>
-    <p>{{subtitle}}</p>
+    <h1>{{ title }}</h1>
+    <p>{{ subtitle }}</p>
 
-    <button  (click)="changeTitle()">Clique Aqui!</button>
+    <button (click)="changeTitle()">Clique Aqui!</button>
   </header>
+
+  <!-- FORMULÁRIO -->
+  <form [formGroup]="form" class="filters">
+    <input
+      formControlName="name"
+      placeholder="Buscar por nome"
+    />
+
+    <select formControlName="category">
+      <option value="all">Todas</option>
+
+      @for (cat of categories; track $index) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+    </select>
+
+    <button type="button" (click)="applyFilter()">
+      Filtrar
+    </button>
+  </form>
+
+  <!-- RESULTADO -->
+  <section class="results">
+    @if (filteredItems.length === 0) {
+      <p class="empty">
+        Nenhum item encontrado
+      </p>
+    } @else {
+      <ul class="list">
+        @for (item of filteredItems; track $index) {
+          <li class="list-item">
+            <strong>{{ item.name }}</strong>
+            <span>{{ item.category }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </section>
 </div>
